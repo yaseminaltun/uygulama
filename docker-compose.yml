@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sports-tracker-postgres
+    environment:
+      POSTGRES_DB: sports_tracker
+      POSTGRES_USER: sports
+      POSTGRES_PASSWORD: sports
+    ports:
+      - "55432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  backend:
+    build:
+      context: ./backend
+    container_name: sports-tracker-backend
+    env_file:
+      - .env
+    environment:
+      PORT: 4000
+      NODE_ENV: development
+      APP_TIME_ZONE: Europe/Istanbul
+      FRONTEND_ORIGIN: http://localhost:5173
+      DATABASE_URL: postgresql://sports:sports@postgres:5432/sports_tracker
+      F1_SEASON: ${F1_SEASON:-2026}
+      RAPIDAPI_TENNIS_KEY: ${RAPIDAPI_TENNIS_KEY:-}
+      TENNIS_SINNER_PLAYER_ID: ${TENNIS_SINNER_PLAYER_ID:-}
+      TENNIS_ALCARAZ_PLAYER_ID: ${TENNIS_ALCARAZ_PLAYER_ID:-}
+      RAPIDAPI_FOOTBALL_KEY: ${RAPIDAPI_FOOTBALL_KEY:-}
+      RAPIDAPI_FOOTBALL_HOST: ${RAPIDAPI_FOOTBALL_HOST:-}
+      RAPIDAPI_FOOTBALL_BASE_URL: ${RAPIDAPI_FOOTBALL_BASE_URL:-}
+      FOOTBALL_SEASON: ${FOOTBALL_SEASON:-2025}
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: sports-tracker-frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:4000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres-data:
