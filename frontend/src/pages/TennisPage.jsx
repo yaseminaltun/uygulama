@@ -18,7 +18,7 @@ export default function TennisPage() {
   if (error) return <ErrorState />;
 
   return (
-    <div className="page-stack">
+    <div className="page-stack tennis-page">
       <SectionHeader eyebrow="Tennis" title="Sinner & Alcaraz">
         Upcoming matches, live scores, recent results, and ranking availability for the selected players.
       </SectionHeader>
@@ -52,8 +52,16 @@ export default function TennisPage() {
 
       <section className="section-block">
         <h2>ATP Ranking Points</h2>
-        <Table columns={rankingColumns} rows={data.rankings || data.players} getRowClassName={(row) => (row.isTracked ? 'highlight-row' : '')} />
+        <Table columns={rankingColumns} rows={data.rankings || data.players} getRowClassName={getRankingRowClassName} />
       </section>
     </div>
   );
+}
+
+function getRankingRowClassName(row) {
+  const name = String(row.name || '').toLowerCase();
+
+  if (name.includes('sinner')) return 'highlight-row highlight-sinner';
+  if (name.includes('alcaraz')) return 'highlight-row highlight-alcaraz';
+  return row.isTracked ? 'highlight-row' : '';
 }

@@ -15,6 +15,11 @@
   --shadow: 0 14px 36px rgba(31, 42, 68, 0.09);
 }
 
+html {
+  color-scheme: light;
+  background: #f5f7fb;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -22,6 +27,8 @@
 body {
   margin: 0;
   min-width: 320px;
+  background: #f5f7fb;
+  color: var(--ink);
 }
 
 button,
@@ -103,6 +110,21 @@ button {
 .page-stack {
   display: grid;
   gap: 24px;
+}
+
+.tennis-page,
+.f1-page {
+  min-height: calc(100vh - 82px);
+  margin: -34px -28px -48px;
+  padding: 34px 28px 48px;
+}
+
+.tennis-page {
+  background: #E6FF6A;
+}
+
+.f1-page {
+  background: #eed4d6;
 }
 
 .section-header {
@@ -197,8 +219,9 @@ h3 {
 }
 
 .event-meta {
-  color: var(--muted);
+  color: var(--ink);
   font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .score {
@@ -274,6 +297,44 @@ h3 {
   padding: 18px;
 }
 
+.session-practice {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #ffffff;
+}
+
+.session-qualifying {
+  background: linear-gradient(135deg, #a855f7, #7e22ce);
+  color: #ffffff;
+}
+
+.session-sprint {
+  background: linear-gradient(135deg, #f97316, #c2410c);
+  color: #ffffff;
+}
+
+.session-race {
+  background: linear-gradient(135deg, #ef4444, #be123c);
+  color: #ffffff;
+}
+
+.session-practice .muted,
+.session-qualifying .muted,
+.session-sprint .muted,
+.session-race .muted,
+.session-practice p,
+.session-qualifying p,
+.session-sprint p,
+.session-race p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.session-practice .event-meta,
+.session-qualifying .event-meta,
+.session-sprint .event-meta,
+.session-race .event-meta {
+  color: #ffffff;
+}
+
 .session-time {
   flex-direction: column;
   align-items: flex-end;
@@ -316,6 +377,36 @@ th {
   background: var(--brand-soft);
   color: #0b4f4a;
   font-weight: 800;
+}
+
+.highlight-sinner td {
+  background: #ffe8cc;
+  color: #663c00;
+}
+
+.highlight-alcaraz td {
+  background: #dcebff;
+  color: #173b73;
+}
+
+.constructor-row td:first-child {
+  border-left: 5px solid var(--team-color, #cbd5e1);
+}
+
+.team-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+}
+
+.team-color-dot {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid rgba(17, 24, 39, 0.18);
+  border-radius: 999px;
+  background: var(--team-color, #cbd5e1);
 }
 
 .state-box {
@@ -449,6 +540,13 @@ th {
   }
 
   .content {
+    padding: 24px 16px 38px;
+  }
+
+  .tennis-page,
+  .f1-page {
+    min-height: calc(100vh - 62px);
+    margin: -24px -16px -38px;
     padding: 24px 16px 38px;
   }
 

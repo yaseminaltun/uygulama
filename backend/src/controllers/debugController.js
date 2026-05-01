@@ -1,5 +1,5 @@
 import { searchFootballLeagues, searchFootballTeams } from '../services/footballService.js';
-import { inspectTennisFixtures, searchTennisPlayer } from '../services/tennisService.js';
+import { inspectRawTennisFixtures, inspectTennisFixtures, searchTennisPlayer } from '../services/tennisService.js';
 
 export async function debugFootballTeams(req, res, next) {
   try {
@@ -48,6 +48,18 @@ export async function debugTennisFixtures(req, res, next) {
         search: req.query.search
       })
     });
+  } catch (error) {
+    if (error.message?.startsWith('Missing ')) {
+      return res.status(400).json({ error: error.message });
+    }
+
+    return next(error);
+  }
+}
+
+export async function debugTennisRawFixtures(req, res, next) {
+  try {
+    return res.json(await inspectRawTennisFixtures());
   } catch (error) {
     if (error.message?.startsWith('Missing ')) {
       return res.status(400).json({ error: error.message });

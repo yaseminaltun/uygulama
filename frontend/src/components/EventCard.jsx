@@ -3,9 +3,10 @@ import StatusBadge from './StatusBadge.jsx';
 
 export default function EventCard({ event, compact = false, onClick }) {
   const start = new Date(event.startTime);
+  const className = ['event-card', compact ? 'compact' : '', getEventSessionClassName(event)].filter(Boolean).join(' ');
 
   return (
-    <article className={compact ? 'event-card compact' : 'event-card'} onClick={onClick}>
+    <article className={className} onClick={onClick}>
       <div className="event-card-top">
         <SportBadge sport={event.sport} />
         <StatusBadge status={event.status} />
@@ -21,4 +22,18 @@ export default function EventCard({ event, compact = false, onClick }) {
       {event.result && <p className="score">{event.result}</p>}
     </article>
   );
+}
+
+function getEventSessionClassName(event) {
+  if (String(event.sport || '').toLowerCase() !== 'f1') {
+    return '';
+  }
+
+  const name = String(event.sessionName || event.title || '').toLowerCase();
+
+  if (name.includes('practice')) return 'session-practice';
+  if (name.includes('sprint')) return 'session-sprint';
+  if (name.includes('qualifying')) return 'session-qualifying';
+  if (name.includes('race')) return 'session-race';
+  return '';
 }

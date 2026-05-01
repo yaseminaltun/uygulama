@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { debugFootballLeagues, debugFootballTeams, debugTennisFixtures, debugTennisSearchPlayer } from '../controllers/debugController.js';
+import { debugFootballLeagues, debugFootballTeams, debugTennisFixtures, debugTennisRawFixtures, debugTennisSearchPlayer } from '../controllers/debugController.js';
 import { today, upcoming } from '../controllers/homeController.js';
 import { calendar, football, formulaOne, tennis } from '../controllers/sportsController.js';
 
@@ -16,4 +16,5 @@ apiRoutes.get('/debug/football/teams', debugFootballTeams);
 apiRoutes.get('/debug/football/leagues', debugFootballLeagues);
 apiRoutes.get('/debug/tennis/fixtures', debugTennisFixtures);
 apiRoutes.get('/debug/tennis/players', debugTennisFixtures);
+apiRoutes.get('/debug/tennis/raw-fixtures', debugTennisRawFixtures);
 apiRoutes.get('/debug/tennis/search-player', debugTennisSearchPlayer);

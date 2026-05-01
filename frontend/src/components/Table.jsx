@@ -1,4 +1,4 @@
-export default function Table({ columns, rows, getRowClassName }) {
+export default function Table({ columns, rows, getRowClassName, getRowStyle }) {
   return (
     <div className="table-wrap">
       <table>
@@ -11,9 +11,13 @@ export default function Table({ columns, rows, getRowClassName }) {
         </thead>
         <tbody>
           {rows.map((row, index) => (
-            <tr className={getRowClassName ? getRowClassName(row) : undefined} key={row.id || row.team || row.driver || index}>
+            <tr
+              className={getRowClassName ? getRowClassName(row) : undefined}
+              key={row.id || row.team || row.driver || index}
+              style={getRowStyle ? getRowStyle(row) : undefined}
+            >
               {columns.map((column) => (
-                <td key={column.key}>{row[column.key]}</td>
+                <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>
               ))}
             </tr>
           ))}
