@@ -1,6 +1,6 @@
 # Sports Tracker
 
-A focused personal sports dashboard for selected tennis players, Formula 1, Fenerbahce, and the Türkiye national football team. It intentionally does not include general sports news or broad player/team tracking.
+A focused personal sports dashboard for selected tennis players and Formula 1. It intentionally does not include general sports news or broad player/team tracking.
 
 ## Project Architecture
 
@@ -22,7 +22,6 @@ A focused personal sports dashboard for selected tennis players, Formula 1, Fene
 │       ├── services
 │       │   ├── calendarService.js
 │       │   ├── f1Service.js
-│       │   ├── footballService.js
 │       │   ├── homeService.js
 │       │   ├── providerUtils.js
 │       │   └── tennisService.js
@@ -51,7 +50,6 @@ A focused personal sports dashboard for selected tennis players, Formula 1, Fene
 - Home dashboard with today's followed events and upcoming events.
 - Tennis tab for Jannik Sinner and Carlos Alcaraz only.
 - Formula 1 tab with race weekend sessions, results, driver standings, and constructor standings.
-- Football tab for Fenerbahce and Türkiye only, with Süper Lig standings.
 - Monthly calendar combining all followed events with sport badges and event details.
 - Modular API services with real providers and mock fallback data.
 - Responsive React UI with loading and error states.
@@ -63,7 +61,6 @@ A focused personal sports dashboard for selected tennis players, Formula 1, Fene
 - `GET /api/home/upcoming`
 - `GET /api/tennis`
 - `GET /api/f1`
-- `GET /api/football`
 - `GET /api/calendar`
 - `GET /api/health`
 
@@ -78,9 +75,6 @@ cp .env.example .env
 Open `.env` and fill in your real API keys:
 
 ```bash
-RAPIDAPI_FOOTBALL_KEY=your_rapidapi_football_key
-RAPIDAPI_FOOTBALL_HOST=your_rapidapi_football_host
-RAPIDAPI_FOOTBALL_BASE_URL=https://your_rapidapi_football_host
 RAPIDAPI_TENNIS_KEY=your_rapidapi_tennis_key
 F1_SEASON=2026
 FOOTBALL_SEASON=2025
@@ -132,7 +126,6 @@ Put API keys and provider IDs in `.env` at the project root. Do not commit `.env
 
 - Formula 1 uses Jolpica F1 API at `https://api.jolpi.ca/ergast/f1`. It does not require a key. Set `F1_SEASON=2026`.
 - Tennis uses RapidAPI ATP/WTA/ITF Tennis API at `https://tennis-api-atp-wta-itf.p.rapidapi.com`. Set `RAPIDAPI_TENNIS_KEY`, `TENNIS_SINNER_PLAYER_ID`, and `TENNIS_ALCARAZ_PLAYER_ID`.
-- Football uses RapidAPI Creativesdev Free API Live Football Data. Set `RAPIDAPI_FOOTBALL_KEY`, `RAPIDAPI_FOOTBALL_HOST`, `RAPIDAPI_FOOTBALL_BASE_URL`, and `FOOTBALL_SEASON=2025`.
 
 If an API request fails or a required key/ID is missing, the backend logs a warning and returns mock fallback data. API responses include `source: "api"` when real provider data is used and `source: "mock-fallback"` when fallback data is used.
 
@@ -142,23 +135,9 @@ If an API request fails or a required key/ID is missing, the backend logs a warn
 curl http://localhost:4000/api/health
 curl http://localhost:4000/api/f1
 curl http://localhost:4000/api/tennis
-curl http://localhost:4000/api/football
 curl http://localhost:4000/api/home/today
 curl http://localhost:4000/api/calendar
 ```
-
-Football debug:
-
-```bash
-curl "http://localhost:4000/api/debug/football/teams?search=Turkey"
-curl "http://localhost:4000/api/debug/football/teams?search=Fenerbahce"
-curl "http://localhost:4000/api/debug/football/teams?search=Fenerbah%C3%A7e"
-curl "http://localhost:4000/api/debug/football/leagues?search=Super%20Lig"
-curl "http://localhost:4000/api/debug/football/leagues?search=S%C3%BCper%20Lig"
-```
-
-Football IDs must come from the configured RapidAPI provider. Old API-SPORTS IDs are intentionally not used. If Süper Lig standings are not supported by the configured free plan, `/api/football` returns `standingsUnavailable: true` and a message explaining that standings are unavailable.
-
 Tennis debug:
 
 ```bash
@@ -176,7 +155,6 @@ To check whether live provider data is being used:
 
 ```bash
 curl http://localhost:4000/api/f1 | grep source
-curl http://localhost:4000/api/football | grep source
 curl http://localhost:4000/api/tennis | grep source
 ```
 
